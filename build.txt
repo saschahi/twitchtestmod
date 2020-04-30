@@ -1,0 +1,4 @@
+displayName = twitchtestmod
+author = saschahi
+version = 0.1
+modReferences = ProjectT

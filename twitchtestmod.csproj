@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="..\..\references\tModLoader.targets" />
+  <PropertyGroup>
+    <AssemblyName>twitchtestmod</AssemblyName>
+    <TargetFramework>net472</TargetFramework>
+    <PlatformTarget>x86</PlatformTarget>
+    <LangVersion>latest</LangVersion>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+  </PropertyGroup>
+  <Target Name="BuildMod" AfterTargets="Build">
+    <Exec Command="&quot;$(tMLBuildServerPath)&quot; -build $(ProjectDir) -eac $(TargetPath) -define $(DefineConstants) -unsafe $(AllowUnsafeBlocks)" />
+  </Target>
+  <ItemGroup>
+    <Compile Remove="references\**" />
+    <EmbeddedResource Remove="references\**" />
+    <None Remove="references\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="ProjectT">
+      <HintPath>lib\ProjectT_v0.3.0.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+</Project>
