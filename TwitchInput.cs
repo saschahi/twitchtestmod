@@ -139,7 +139,7 @@ namespace twitchtestmod
                 string v1 = null;
                 string v2 = null;
                 string v3 = null;
-                string v4 = null;
+                string v4 = "1";
                 if (message.Length > 9)
                 {
                     v1 = message.Remove(0, 5);
@@ -156,39 +156,36 @@ namespace twitchtestmod
                 }
 
                 //now v2 should be the name of the item/npc, and v4 should be the amount.
-                if(v4 == null)
-                {
-                    //and if the amount is null, we can assume only 1 should be bought (if someone does "!buy zombie" without an amount)
-                    v4 = "1";
-                }
 
                 if (v4 != null && v2 != null)
                 {
                     //look if an NPC with that name exist
-
-                    int answer = twitchtestmod.doesNPCexist(v2);
-                    if (answer != -1)
+                    if (twitchtestmod.DoesBuffexist(v2, out TBuff Buff))
+                    {
+                        try
+                        {
+                            Commands.BuyPotionEffectCommand(viewer, Buff, Convert.ToInt32(v4));
+                        }
+                        catch { }
+                    }
+                    else if (twitchtestmod.DoesNPCexist(v2, out int ID2))
                     {
                         //if yes, send it to the commandhandler
                         try
                         {
-                            Commands.BuyNPCCommand(viewer, answer, Convert.ToInt32(v4));
+                            Commands.BuyNPCCommand(viewer, ID2, Convert.ToInt32(v4));
                         }
                         catch { }
                     }
-                    else
+                    else if (twitchtestmod.DoesItemexist(v2, out int ID3))
                     {
-                        //look if an item with that name exists
-                        answer = twitchtestmod.doesItemexist(v2);
-                        if (answer != -1)
+                        //if yes, send it to the commandhandler
+                        try
                         {
-                            //if yes, send it to the commandhandler
-                            try
-                            {
-                                Commands.BuyItemCommand(viewer, answer, Convert.ToInt32(v4));
-                            }
-                            catch { }
+                            Commands.BuyItemCommand(viewer, ID3, Convert.ToInt32(v4));
                         }
+                        catch { }
+
                     }
                 }
 

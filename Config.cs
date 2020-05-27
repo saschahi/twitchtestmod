@@ -14,7 +14,7 @@ namespace twitchtestmod
 
         public static Config Instance;
 
-        [Label("Disabled NPCs")]
+        [Label("Blacklist/Whitelist NPCs")]
         [Tooltip("If you want to disable specific NPCs, add them here.")]
         public List<NPCDefinition> BannedNPC { get; set; } = new List<NPCDefinition>();
 
@@ -23,7 +23,7 @@ namespace twitchtestmod
 
         public bool whitelistmodeNPC { get; set; } = new bool();
 
-        [Label("Disabled Items")]
+        [Label("Blacklist/Whitelist Items")]
         [Tooltip("Put all Items you want to disable in here")]
 
         public List<ItemDefinition> BannedItems { get; set; } = new List<ItemDefinition>();
@@ -57,6 +57,11 @@ namespace twitchtestmod
         [Tooltip("Self-Explanatory")]
 
         public bool ChatBuyAlert { get; set; } = new bool();
+
+        [Label("Disable Buffs")]
+        [Tooltip("if true, Buffs can't be bought")]
+
+        public bool disableBuffs { get; set; } = new bool();
 
         public override void OnLoaded()
         {

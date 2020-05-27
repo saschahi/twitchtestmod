@@ -17,6 +17,7 @@ namespace twitchtestmod
     {
         private static string NPCListPath = Path.Combine(Main.SavePath, "TProject", "Shop", "NPCList.json");
         private static string ItemListPath = Path.Combine(Main.SavePath, "TProject", "Shop",  "ItemList.json");
+        private static string BuffListPath = Path.Combine(Main.SavePath, "TProject", "Shop", "BuffList.json");
         private static string Generalpath = Path.Combine(Main.SavePath, "TProject", "Shop");
         public static int damagepricemultiplier = 10;
 
@@ -31,13 +32,16 @@ namespace twitchtestmod
             {
                 CreateItemConfigfile();
             }
+            if(!File.Exists(BuffListPath))
+            {
+                CreateBuffConfigfile();
+            }
         }
 
         public static void CreateNPCConfigfile()
         {
             TNPCjsonhelper mem = new TNPCjsonhelper();
             mem.List = generateNPCList();
-            //List<TNPC> mem = generateNPCList();
             string json = JsonConvert.SerializeObject(mem, Formatting.Indented);
             File.WriteAllText(NPCListPath, json.ToString());
         }
@@ -46,16 +50,22 @@ namespace twitchtestmod
         {
             TItemjsonhelper mem = new TItemjsonhelper();
             mem.List = generateItemList();
-            //List<TItem> mem = generateItemList();
             string json = JsonConvert.SerializeObject(mem, Formatting.Indented);
             File.WriteAllText(ItemListPath, json.ToString());
+        }
+
+        public static void CreateBuffConfigfile()
+        {
+            TBuffjsonhelper mem = new TBuffjsonhelper();
+            mem.List = BuffList.getNewBuffList();
+            string json = JsonConvert.SerializeObject(mem, Formatting.Indented);
+            File.WriteAllText(BuffListPath, json.ToString());
         }
 
         public static void OverwriteNPCConfig(List<TNPC> NPCList)
         {
             TNPCjsonhelper mem = new TNPCjsonhelper();
             mem.List = NPCList;
-            Directory.CreateDirectory(Generalpath);
             string json = JsonConvert.SerializeObject(mem, Formatting.Indented);
             File.WriteAllText(NPCListPath, json.ToString());
         }
@@ -63,30 +73,41 @@ namespace twitchtestmod
         {
             TItemjsonhelper mem = new TItemjsonhelper();
             mem.List = Itemlist;
-            Directory.CreateDirectory(Generalpath);
             string json = JsonConvert.SerializeObject(mem, Formatting.Indented);
             File.WriteAllText(ItemListPath, json.ToString());
+        }
+        public static void OverwriteBuffConfig(List<TBuff> Bufflist)
+        {
+            TBuffjsonhelper mem = new TBuffjsonhelper();
+            mem.List = Bufflist;
+            string json = JsonConvert.SerializeObject(mem, Formatting.Indented);
+            File.WriteAllText(BuffListPath, json.ToString());
         }
 
         public static List<TNPC> getNPCConfig()
         {
             List<TNPC> mem = new List<TNPC>();
-
             JObject o1 = JObject.Parse(File.ReadAllText(NPCListPath));
             TNPCjsonhelper read = o1.ToObject<TNPCjsonhelper>();
             mem = read.List;
-
             return mem;
         }
 
         public static List<TItem> getItemConfig()
         {
             List<TItem> mem = new List<TItem>();
-
             JObject o1 = JObject.Parse(File.ReadAllText(ItemListPath));
             TItemjsonhelper read = o1.ToObject<TItemjsonhelper>();
             mem = read.List;
+            return mem;
+        }
 
+        public static List<TBuff> getBuffConfig()
+        {
+            List<TBuff> mem = new List<TBuff>();
+            JObject o1 = JObject.Parse(File.ReadAllText(BuffListPath));
+            TBuffjsonhelper read = o1.ToObject<TBuffjsonhelper>();
+            mem = read.List;
             return mem;
         }
 
@@ -308,14 +329,9 @@ namespace twitchtestmod
         
         public static List<TBuff> generateBuffList()
         {
-            List<TBuff> tocreate = new List<TBuff>();
-
-            for (int i = 0; i < BuffLoader.BuffCount; i++)
-            {
-                
-            }
-
-            return tocreate;
+            return BuffList.getNewBuffList();
+            //Todo - find way to get all buffs
+            //or not... I'd have to go through and manually assign prices and remove summons anyway.
         }
     }
 }

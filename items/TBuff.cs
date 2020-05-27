@@ -8,6 +8,18 @@ namespace twitchtestmod
 {
     public class TBuff
     {
+        public TBuff()
+        {
+
+        }
+        public TBuff(string name, double price, int id)
+        {
+            Name = name;
+            Price = price;
+            ID = id; ;
+            Mod = "Manual";
+        }
+
         public string Name;
         public double Price;
         public int ID;

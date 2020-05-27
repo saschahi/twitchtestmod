@@ -15,6 +15,7 @@ namespace twitchtestmod
 		//for shop
 		public static List<TItem> Itemlist = new List<TItem>();
 		public static List<TNPC> NPClist = new List<TNPC>();
+		public static List<TBuff> Bufflist = new List<TBuff>();
 
 		//theoretically not required
 		public static twitchtestmod instance;
@@ -29,7 +30,7 @@ namespace twitchtestmod
 			ProjectT = null;
 			Itemlist = null;
 			NPClist = null;
-			
+			Bufflist = null;
 		}
 		//Code from here on is for the shop
 
@@ -43,29 +44,45 @@ namespace twitchtestmod
 			return Main.gameMenu;
 		}
 
-		//see if an item/monster exist with that name
-		public static int doesItemexist(string name)
+		public static bool DoesItemexist(string name, out int ID)
 		{
-			foreach(var item in Itemlist)
+			var item = Itemlist.Find((i) => i.Name.ToLower() == name);
+
+			if (item != null)
 			{
-				if(item.Name.ToLower() == name)
-				{
-					return item.ID;
-				}
+				ID = item.ID;
+				return true;
 			}
-			return -1;
+			ID = 0;
+			return false;
 		}
 
-		public static int doesNPCexist(string name)
+		public static bool DoesNPCexist(string name, out int ID)
 		{
-			foreach (var item in NPClist)
+			var item = NPClist.Find((i) => i.Name.ToLower() == name);
+
+			if (item != null)
 			{
-				if (item.Name.ToLower() == name)
-				{
-					return item.ID;
-				}
+				ID = item.ID;
+				return true;
 			}
-			return -1;
+
+			ID = 0;
+			return false;
+		}
+
+		public static bool DoesBuffexist(string name, out TBuff Buff)
+		{
+			var item = Bufflist.Find((i) => i.Name.ToLower() == name);
+
+			if (item != null)
+			{
+				Buff = item;
+				return true;
+			}
+
+			Buff = null;
+			return false;
 		}
 
 		public void initconfig()
@@ -74,12 +91,15 @@ namespace twitchtestmod
 			//reading the config
 			Itemlist = priceconfig.getItemConfig();
 			NPClist = priceconfig.getNPCConfig();
-			//remaking the lists to make sure IDs are still the up to date, just keeping prices. (IDs are "reshuffled" for Moditems everytime you change your modlist)
+			Bufflist = priceconfig.getBuffConfig();
+			//remaking the lists to make sure IDs are still up to date, just keeping prices. (IDs are "reshuffled" for Moditems everytime you change your modlist)
 			Itemlist = priceconfig.HardRepopulateItems(Itemlist);
 			NPClist = priceconfig.HardRepopulateNPCs(NPClist);
+			//Bufflist doesn't need repopulating just yet.
 			//write the "up to date" lists back to the configfiles.
 			priceconfig.OverwriteItemConfig(Itemlist);
 			priceconfig.OverwriteNPCConfig(NPClist);
+			//no need to rewrite the config if nothing was changed.
 		}
 	}
 }

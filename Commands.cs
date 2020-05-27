@@ -70,7 +70,7 @@ namespace twitchtestmod
             }
             else 
             {
-                Calls.sendmessage("@" + viewer.Name + " you don't have enough Coins for this NPC - it costs " + npc.lifeMax);
+                Calls.sendmessage("@" + viewer.Name + " you don't have enough Coins for this NPC - it costs " + cost);
             }
 
 
@@ -89,13 +89,10 @@ namespace twitchtestmod
                 //just to prevent inventory nuking
                 count = item.maxStack;
             }
-            if (Calls.removecoins(viewer, Convert.ToDouble(item.value)))
+            double cost = item.value * count;
+            if (Calls.removecoins(viewer, Convert.ToDouble(cost)))
             {
-                for (int i = 0; i < count; i++)
-                {
-                    //shortversion: Spawn a new Item, at the location of myPlayer, that has the "type" of the item bought
-                    Item.NewItem(Main.player[Main.myPlayer].getRect(), ItemType);
-                }
+                Item.NewItem(Main.player[Main.myPlayer].getRect(), ItemType, count, false, -1, false, false);
                 if (TConfig.ChatBuyAlert)
                 {
                     Main.NewText(viewer.Name + " has bought " + count + " " + item.Name, Color.Red);
@@ -105,20 +102,30 @@ namespace twitchtestmod
             }
             else
             {
-                Calls.sendmessage("@" + viewer.Name + " you don't have enough Coins for this Item - it costs " + item.value);
+                Calls.sendmessage("@" + viewer.Name + " you don't have enough Coins for this Item - it costs " + cost);
             }
         }
 
-        public static void BuyPotionEffectCommand(Viewer viewer, int type, int seconds)
+        public static void BuyPotionEffectCommand(Viewer viewer, TBuff Buff, int seconds)
         {
-            
+            if (TConfig.disableBuffs) { return; }
+            double cost = 0;
+            cost = Buff.Price * seconds;
+            if(Calls.removecoins(viewer, cost))
+            {
+                int duration = seconds * 60;
+                Main.player[Main.myPlayer].AddBuff(Buff.ID, duration);
 
-
-
-
-
-
-            Main.player[Main.myPlayer].AddBuff(type, seconds);
+                if (TConfig.ChatBuyAlert)
+                {
+                    Main.NewText(viewer.Name + " has bought " + seconds + " seconds of " + Buff.Name + " Buff/Debuff", Color.Red);
+                }
+                Calls.sendmessage("@" + viewer.Name + " Your " + seconds + " seconds of " + Buff.Name + " have been applied");
+            }
+            else
+            {
+                Calls.sendmessage("@" + viewer.Name + " you don't have enough Coins for this Buff - it costs " + cost);
+            }
         }
 	}
 }
