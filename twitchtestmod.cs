@@ -1,5 +1,7 @@
 using ProjectT;
-using System;
+using System.Collections.Generic;
+using System.Linq;
+using Terraria;
 using Terraria.ModLoader;
 
 namespace twitchtestmod
@@ -7,8 +9,13 @@ namespace twitchtestmod
 	public class twitchtestmod : Mod
 	{
 		//required
-		ILikeCookies test = new ILikeCookies();
+		TwitchInput test = new TwitchInput();
 		public static Mod ProjectT;
+
+		//for shop
+		public static List<TItem> Itemlist = new List<TItem>();
+		public static List<TNPC> NPClist = new List<TNPC>();
+
 		//theoretically not required
 		public static twitchtestmod instance;
 
@@ -17,64 +24,62 @@ namespace twitchtestmod
 			ProjectT = ModLoader.GetMod("ProjectT");
 		}
 
-		//how to send a message in Chat:
-		static public void sendmessage(string message)
+		public override void Unload()
 		{
-			if (ProjectT != null)
-			{
-				//requires the operator "SendMessage" and a message
-				ProjectT.Call("SendMessage", message);
-			}
+			ProjectT = null;
+			Itemlist = null;
+			NPClist = null;
+			
+		}
+		//Code from here on is for the shop
+
+		public override void PostAddRecipes()
+		{
+			initconfig();
 		}
 
-		//send a whisper to a specific person
-		static public void sendwhisper(string name, string message)
+		public static bool menucheck()
 		{
-			if (ProjectT != null)
-			{
-				//requires the operator "SendWhisper", a receiver and a message
-				ProjectT.Call("SendWhisper", name, message);
-			}
+			return Main.gameMenu;
 		}
 
-		//The "Viewers" I require for adding and removing coins don't have to be 100% accurate. Only the Username and UserID are required. the rest can just be null.
-
-		static public bool removecoins(Viewer viewer, double CoinsToRemove)
+		//see if an item/monster exist with that name
+		public static int doesItemexist(string name)
 		{
-			if (ProjectT != null)
+			foreach(var item in Itemlist)
 			{
-				//you cannot send a double. I convert it back to a double on my end. I have no idea why it is like that either.
-				string req = Convert.ToString(CoinsToRemove);
-
-				try
+				if(item.Name.ToLower() == name)
 				{
-					//requires the operator "RemoveCoins", a receiver the amount
-					bool answer = ProjectT.Call("RemoveCoins", viewer, req) is bool result && result;
-					return answer;
+					return item.ID;
 				}
-				catch
-				{
-					return false;
-				}
-				//Note: checking if the viewer exists, and if he has enough coins is done on my part. you don't have to implement that
-				//If the user doesn't exist or doesn't have enough coins I return a false
-				//If the user exists, has enough coins and the coins were removed successfully, I return true
 			}
-			return false;
+			return -1;
 		}
 
-		static public void addcoins(Viewer viewer, double CoinsToAdd)
+		public static int doesNPCexist(string name)
 		{
-			if (ProjectT != null)
+			foreach (var item in NPClist)
 			{
-				//you cannot send a double. I convert it back to a double on my end.
-				string req = Convert.ToString(CoinsToAdd);
-
-				//requires the operator "AddCoins", a receiver and amount
-				ProjectT.Call("AddCoins", viewer, req);
-
-				//I check on my side if the user exists. you don't have to. But you won't get a return here.
+				if (item.Name.ToLower() == name)
+				{
+					return item.ID;
+				}
 			}
+			return -1;
+		}
+
+		public void initconfig()
+		{
+			priceconfig.CheckifExist();
+			//reading the config
+			Itemlist = priceconfig.getItemConfig();
+			NPClist = priceconfig.getNPCConfig();
+			//remaking the lists to make sure IDs are still the up to date, just keeping prices. (IDs are "reshuffled" for Moditems everytime you change your modlist)
+			Itemlist = priceconfig.HardRepopulateItems(Itemlist);
+			NPClist = priceconfig.HardRepopulateNPCs(NPClist);
+			//write the "up to date" lists back to the configfiles.
+			priceconfig.OverwriteItemConfig(Itemlist);
+			priceconfig.OverwriteNPCConfig(NPClist);
 		}
 	}
 }
