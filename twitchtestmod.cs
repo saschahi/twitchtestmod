@@ -35,6 +35,7 @@ namespace twitchtestmod
 
 		public override void PostAddRecipes()
 		{
+			Commands.CConfig = ModContent.GetInstance<commandconfig>();
 			initconfig();
 		}
 

@@ -11,7 +11,6 @@ namespace twitchtestmod
         public override void MessageHandler(Viewer viewer, string message, int bits)
         {
             commandhandler(viewer, message);
-
         }
 
         public static string buyCommand => Commands.CConfig.buystring;
