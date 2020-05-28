@@ -1,11 +1,4 @@
-﻿using IL.Terraria.ID;
-using On.Terraria.ID;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Terraria.ID;
+﻿using System.Collections.Generic;
 
 namespace twitchtestmod
 {
@@ -103,12 +96,16 @@ namespace twitchtestmod
             tocreate.Add(new TBuff("dryadsblessing", 1, Terraria.ID.BuffID.DryadsWard));
             tocreate.Add(new TBuff("penetrated", 18, 169)); //3dps
             tocreate.Add(new TBuff("dryadsbane", 50, Terraria.ID.BuffID.DryadsWardDebuff)); //up to 16dps
-            tocreate.Add(new TBuff("daybroken", 1000, Terraria.ID.BuffID.Daybreak)); //100dps
             tocreate.Add(new TBuff("witheredarmor", 25, Terraria.ID.BuffID.WitheredArmor));
             tocreate.Add(new TBuff("witheredweapon", 40, Terraria.ID.BuffID.WitheredWeapon));
             tocreate.Add(new TBuff("oozed", 20, Terraria.ID.BuffID.OgreSpit));
             tocreate.Add(new TBuff("strikingmoment", 3, 198));
             tocreate.Add(new TBuff("creativeshock", 20, 199)); //might not work
+            //teststuff
+            tocreate.Add(new TBuff("rapidhealing", 10, Terraria.ID.BuffID.RapidHealing)); //armor-buffs seem to work...
+            //tocreate.Add(new TBuff("pygmies", 10, Terraria.ID.BuffID.Pygmies)); summons don't work
+            //tocreate.Add(new TBuff("babyslime", 10, Terraria.ID.BuffID.BabySlime)); pets doN't work
+            tocreate.Add(new TBuff("drill", 20, Terraria.ID.BuffID.DrillMount)); // mounts seem to work
 
             return tocreate;
         }

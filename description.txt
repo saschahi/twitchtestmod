@@ -1,1 +1,28 @@
-twitchtestmod is a pretty cool mod, it does...this. Modify this file with a description of your mod.
+Project-T Addon: Viewershop
+
+With Viewershop, you can let your Twitch-Viewers in on the gamplay!
+Viewershop allows your Viewers to spend their Project-T Coins on Items, Buffs, or NPCs!
+
+Items will be spawned directly on the player
+NPCs will be spawned about 2/3 of the screen above the player with a random offset to the left/right
+Buffs will be bought and applied "per second"
+
+The Price of Items/NPCs is automatically generated and Items and NPCs from other mods are automatically buyable too!
+
+Buffs currently have to be manually added (but most vanilla buffs have been manually added by me already)
+
+Configurable Commands this Mod adds:
+!buy (NPC/Item/Buff) (Amount/seconds) - Buy stuff
+!purchaselist - send a link in chat to a URL (defaults to a Vanilla Pricelist witout modded items)
+
+It's highly configurable too!
+you don't want people to buy Items because it would be too easy? disable them
+you want people to only be able to buy a few specific NPCs/Items? also doable
+you just want buffs to be buyable? sure thing
+and far more!
+
+you can change the prices of all Items/NPCs/Buffs here:
+%User%\Dokuments\My Games\Terraria\ModLoader\TProject\Shop
+I'll try to add a nicer way to edit prices in the future
+
+This Is made as an example for an Addon to Project-T, my Twitch-connection library Mod.

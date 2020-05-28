@@ -1,6 +1,4 @@
-using ProjectT;
 using System.Collections.Generic;
-using System.Linq;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -28,6 +26,7 @@ namespace twitchtestmod
 		public override void Unload()
 		{
 			ProjectT = null;
+
 			Itemlist = null;
 			NPClist = null;
 			Bufflist = null;

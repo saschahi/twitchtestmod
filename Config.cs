@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Config;
 
@@ -35,6 +32,7 @@ namespace twitchtestmod
 
         [Label("Disable Bosses (Very Recommended, lots of glitches.)")]
         [Tooltip("if true, Bosses can't be bought")]
+        [DefaultValue(true)]
 
         public bool disablebosses { get; set; } = new bool();
 
@@ -73,5 +71,34 @@ namespace twitchtestmod
         }
     }
 
-    
+    public class commandconfig : ModConfig
+    {
+        public override ConfigScope Mode => ConfigScope.ClientSide;
+
+        [Label("Purchaselist Command")]
+        //[Tooltip("")]
+        [DefaultValue("purchaselist")]
+        public string purchaseliststring { get; set; }
+
+        [Label("Purchaselist URL")]
+        //[Tooltip("")]
+        [DefaultValue("https://saschahi.github.io/TerrariaList/")]
+        public string purchaselisturl { get; set; }
+
+        [Label("Buy Command")]
+        //[Tooltip("")]
+        [DefaultValue("buy")]
+        public string buystring { get; set; }
+
+
+        public override void OnLoaded()
+        {
+            Commands.CConfig = ModContent.GetInstance<commandconfig>();
+        }
+        public override void OnChanged()
+        {
+            Commands.CConfig = ModContent.GetInstance<commandconfig>();
+        }
+    }
+
 }

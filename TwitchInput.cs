@@ -1,8 +1,5 @@
-﻿using IL.Terraria.IO;
-using ProjectT;
+﻿using ProjectT;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 
 namespace twitchtestmod
@@ -13,123 +10,32 @@ namespace twitchtestmod
 
         public override void MessageHandler(Viewer viewer, string message, int bits)
         {
-            //do whatever you want here
-
-            //A Viewer is made out of
-
-            string name = viewer.Name; //his name
-
-            double coins = viewer.Coins; //which can be used later
-
-            bool mod = viewer.mod; //see if he's a chat moderator
-
-            bool vip = viewer.vip; //self-explaining
-
-            bool subscriber = viewer.subscriber; //self-explaining
-
-            DateTime time = viewer.last_seen; // it's formatted as DateTime.UTCNow
-
-            //and the
-
-            string chat = message; //message that was sent through the chat.
-
-            //and also
-
-            int Bits = bits; //includes the bits (if the message had some)
-
-            //here starts commandhandler
             commandhandler(viewer, message);
 
         }
 
-        //end of example
-
-        //For a list of all users
-
-        public static List<Viewer> locallist = new List<Viewer>();
-
-
-        public override void onViewerListUpdate(List<Viewer> ListOfAllViewers)
-        {
-            //use this if you need a list of ALL viewers at all time. This updates everytime a viewer gets added or coins added/removed.
-
-            //not only "online" viewers get sent. BUT ALL HISTORICAL VIEWERS ~~~ Yes I'll find a nicer/async/queued way once people show up with lists of 1000+ historical users.
-
-            //ofcourse it also gets sent once at "PostAddRecipes" to start off.
-
-            locallist = ListOfAllViewers;
-        }
-
-        public override void onCommunitySubscription(Viewer viewer)
-        {
-            //I'm not actually sure what this is yet. If you figure it out tell me.
-        }
-
-        public override void onBeingHosted(string Hoster, int AmountofViewers)
-        {
-            //BEWARE. this only gets the name of the hoster. NOT AN INSTANCE OF A VIEWER. 
-            //A Viewer will be created once the hoster writes in chat like everyone else.
-
-            //name says it all
-        }
-
-        public override void onConnected()
-        {
-            //gets called when the Bot Connects to Twitch
-        }
-
-        public override void onConnectionError()
-        {
-            //name says it all
-        }
-
-        public override void onDisconnected()
-        {
-            //Gets called when the Bot Disconnects from twitch
-        }
-
-        public override void onGiftedSubscription(Viewer viewer)
-        {
-            //name says it all
-        }
-
-        public override void onIncorrectLogin()
-        {
-            //gets called when the bot can't connect with the Twitch chat due to wrong Login credentials (botname + oauth code)
-        }
-
-        public override void onNewSubscriber(Viewer viewer, string tier)
-        {
-            //name says it all
-        }
-
-
-        public override void onReSubscriber(Viewer viewer, string tier)
-        {
-            //name says it all
-        }
-
-        public override void WhisperMessageHandler(Viewer viewer, string message)
-        {
-            //gets called when the bot gets whispered to
-        }
-
-
-
-
-
+        public static string buyCommand => Commands.CConfig.buystring;
+        public static string Purchaselistcommand => Commands.CConfig.purchaseliststring;
+        public static string Purchaselisturl => Commands.CConfig.purchaselisturl;
 
         public void commandhandler(Viewer viewer, string message)
         {
             //here we'll make our commandchecks
-            if (message.StartsWith("!buy "))
+            if (message.StartsWith("!" + buyCommand))
             {
                 //if it's the !buy command, send it to forward to get processed
                 BuyCommand(viewer, message);
             }
+            else if (message.StartsWith("!" + Purchaselistcommand))
+            {
+                PurchaselistCommand();
+            }
         }
 
-
+        public void PurchaselistCommand()
+        {
+            Calls.sendmessage("Here's the Shop-List: " + Purchaselisturl);
+        }
 
         public void BuyCommand(Viewer viewer, string message)
         {
@@ -162,6 +68,7 @@ namespace twitchtestmod
                     //look if an NPC with that name exist
                     if (twitchtestmod.DoesBuffexist(v2, out TBuff Buff))
                     {
+                        //if yes, send it to the commandhandler
                         try
                         {
                             Commands.BuyPotionEffectCommand(viewer, Buff, Convert.ToInt32(v4));
@@ -185,11 +92,8 @@ namespace twitchtestmod
                             Commands.BuyItemCommand(viewer, ID3, Convert.ToInt32(v4));
                         }
                         catch { }
-
                     }
                 }
-
-
             }
         }
     }

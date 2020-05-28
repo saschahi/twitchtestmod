@@ -1,12 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using ProjectT;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.ModLoader.Config;
 
 namespace twitchtestmod
@@ -14,7 +9,7 @@ namespace twitchtestmod
     public static class Commands
     {
         public static Config TConfig = new Config();
-
+        public static commandconfig CConfig = new commandconfig();
         public static void BuyNPCCommand(Viewer viewer, int NPCType, int count)
         {
             if(count > 100)
