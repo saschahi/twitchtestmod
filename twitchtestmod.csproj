@@ -18,7 +18,7 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="ProjectT">
-      <HintPath>lib\ProjectT_v0.4.dll</HintPath>
+      <HintPath>lib\ProjectT_v0.5.1.dll</HintPath>
     </Reference>
   </ItemGroup>
 </Project>

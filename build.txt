@@ -1,4 +1,4 @@
 displayName = Project-T Addon: Viewershop
 author = saschahi
-version = 0.5
+version = 1.0
 modReferences = ProjectT
