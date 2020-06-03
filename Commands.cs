@@ -1,7 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
 using ProjectT;
 using System;
+using System.Collections.Generic;
+using System.Data;
 using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
 using Terraria.ModLoader.Config;
 
 namespace twitchtestmod
@@ -33,6 +37,27 @@ namespace twitchtestmod
             catch { return; }
             if (Calls.removecoins(viewer, Convert.ToDouble(cost)))
             {
+                //if multiplayerclient, we can't spawn it ourselfes. so give it to the server.
+                if(Main.netMode == NetmodeID.MultiplayerClient)
+                {
+                    MainNetworking.NPCAddToQueue(NPCType, count, viewer.Name);
+                    Calls.sendmessage("@" + viewer.Name + " Your " + count + " " + npc.FullName + "(s) will be spawned");
+                    return;
+                }
+
+                if (npc.townNPC)
+                {
+                    for (int i = 0; i < Main.npc.Length; i++)
+                    {
+                        NPC anpc = Main.npc[i];
+                        if (npc.type == anpc.type)
+                        {
+                            npc.Teleport(Main.player[Main.myPlayer].position, 1);
+                            return;
+                        }
+                    }
+                }
+
                 Random xrandomizer = new Random();
                 int posx = (int)Main.player[Main.myPlayer].position.X;
                 int posy = (int)Main.player[Main.myPlayer].position.Y;
@@ -54,7 +79,8 @@ namespace twitchtestmod
                     {
                         posx = 0;
                     }
-
+                    //NPC.NewNPC(posx, posy, NPCType);
+                    //Main.npc[NPC.NewNPC(posx, posy, NPCType)].netUpdate = true;
                     NPC.NewNPC(posx, posy, NPCType);
                 }
                 if (TConfig.ChatBuyAlert)
@@ -87,13 +113,20 @@ namespace twitchtestmod
             double cost = item.value * count;
             if (Calls.removecoins(viewer, Convert.ToDouble(cost)))
             {
+                if (Main.netMode == NetmodeID.MultiplayerClient)
+                {
+                    MainNetworking.ItemAddToQueue(ItemType, count);
+                    Calls.sendmessage("@" + viewer.Name + " Your " + count + " " + item.Name + "(s) will be spawned");
+                    return;
+                }
+
                 Item.NewItem(Main.player[Main.myPlayer].getRect(), ItemType, count, false, -1, false, false);
+
                 if (TConfig.ChatBuyAlert)
                 {
                     Main.NewText(viewer.Name + " has bought " + count + " " + item.Name, Color.Red);
                 }
                 Calls.sendmessage("@" + viewer.Name + " Your " + count + " " + item.Name + "(s) have/has been spawned");
-
             }
             else
             {
@@ -106,9 +139,18 @@ namespace twitchtestmod
             if (TConfig.disableBuffs) { return; }
             double cost = 0;
             cost = Buff.Price * seconds;
-            if(Calls.removecoins(viewer, cost))
+            if (Calls.removecoins(viewer, cost))
             {
+                /*if (Main.netMode == NetmodeID.MultiplayerClient)
+                {
+                    MainNetworking.BuffAddToQueue(Buff.ID, seconds);
+                    Calls.sendmessage("@" + viewer.Name + " Your " + seconds + " seconds of " + Buff.Name + " will be applied");
+
+                    return;
+                }*/
+
                 int duration = seconds * 60;
+
                 Main.player[Main.myPlayer].AddBuff(Buff.ID, duration);
 
                 if (TConfig.ChatBuyAlert)
@@ -121,6 +163,15 @@ namespace twitchtestmod
             {
                 Calls.sendmessage("@" + viewer.Name + " you don't have enough Coins for this Buff - it costs " + cost);
             }
+        }
+
+        public static void BuyBuffEffectGlobalEnemies(Viewer viewer, TBuff Buff, int seconds)
+        {
+            /*
+            if(TConfig.disableGlobalBuffs) { return; }
+            double cost = 0;
+            cost = Buff.Price * seconds;
+            */
         }
 	}
 }

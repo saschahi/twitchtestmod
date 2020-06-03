@@ -61,6 +61,11 @@ namespace twitchtestmod
 
         public bool disableBuffs { get; set; } = new bool();
 
+        [Label("Disable Global NPC Buffs")]
+        [Tooltip("if true, Global NPC Buffs can't be bought")]
+
+        public bool disableGlobalBuffs { get; set; } = new bool();
+
         public override void OnLoaded()
         {
             Commands.TConfig = ModContent.GetInstance<Config>();

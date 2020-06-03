@@ -87,7 +87,7 @@ namespace twitchtestmod
             tocreate.Add(new TBuff("moonbite", 15, Terraria.ID.BuffID.MoonLeech)); //may not work
             tocreate.Add(new TBuff("webbed", 90, Terraria.ID.BuffID.Webbed));
             tocreate.Add(new TBuff("bewitched", 1, Terraria.ID.BuffID.Bewitched));
-            tocreate.Add(new TBuff("shadowflame", 90, Terraria.ID.BuffID.ShadowFlame));//15dps + no regen
+            //tocreate.Add(new TBuff("shadowflame", 90, Terraria.ID.BuffID.ShadowFlame));//15dps + no regen DOESNT WORK ON PLAYER
             tocreate.Add(new TBuff("stoned", 100, Terraria.ID.BuffID.Stoned));
             tocreate.Add(new TBuff("sharpened", 1, Terraria.ID.BuffID.Sharpened));
             tocreate.Add(new TBuff("dazed", 15, Terraria.ID.BuffID.Dazed));
@@ -105,7 +105,7 @@ namespace twitchtestmod
             tocreate.Add(new TBuff("rapidhealing", 10, Terraria.ID.BuffID.RapidHealing)); //armor-buffs seem to work...
             //tocreate.Add(new TBuff("pygmies", 10, Terraria.ID.BuffID.Pygmies)); summons don't work
             //tocreate.Add(new TBuff("babyslime", 10, Terraria.ID.BuffID.BabySlime)); pets doN't work
-            tocreate.Add(new TBuff("drill", 20, Terraria.ID.BuffID.DrillMount)); // mounts seem to work
+            //tocreate.Add(new TBuff("drill", 20, Terraria.ID.BuffID.DrillMount)); // mounts seem to work
 
             return tocreate;
         }

@@ -1,4 +1,6 @@
+using Steamworks;
 using System.Collections.Generic;
+using System.IO;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -15,21 +17,23 @@ namespace twitchtestmod
 		public static List<TNPC> NPClist = new List<TNPC>();
 		public static List<TBuff> Bufflist = new List<TBuff>();
 
+
 		//theoretically not required
 		public static twitchtestmod instance;
 
 		public override void Load()
 		{
 			ProjectT = ModLoader.GetMod("ProjectT");
+			instance = this;
 		}
 
 		public override void Unload()
 		{
 			ProjectT = null;
-
 			Itemlist = null;
 			NPClist = null;
 			Bufflist = null;
+			instance = null;
 		}
 		//Code from here on is for the shop
 
@@ -100,6 +104,11 @@ namespace twitchtestmod
 			priceconfig.OverwriteItemConfig(Itemlist);
 			priceconfig.OverwriteNPCConfig(NPClist);
 			//no need to rewrite the config if nothing was changed.
+		}
+
+		public override void HandlePacket(BinaryReader reader, int whoAmI)
+		{
+			NetworkHandlers.HandleIncommingData(reader, whoAmI);
 		}
 	}
 }
