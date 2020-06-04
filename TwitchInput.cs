@@ -1,6 +1,7 @@
 ﻿using ProjectT;
 using System;
 using System.Linq;
+using Terraria.ID;
 
 namespace twitchtestmod
 {
@@ -64,6 +65,16 @@ namespace twitchtestmod
 
                 if (v4 != null && v2 != null)
                 {
+                    if(Terraria.Main.netMode == NetmodeID.MultiplayerClient)
+                    {
+                        if(!twitchtestmod.instance.GetPermission(Terraria.Main.myPlayer))
+                        {
+                            Calls.sendmessage("Purchase denied. This Streamer doesn't have the right HerosMod Permission for the Viewershop on this Server.");
+                            return;
+                        }
+                    }
+
+
                     //look if an NPC with that name exist
                     if (twitchtestmod.DoesBuffexist(v2, out TBuff Buff))
                     {

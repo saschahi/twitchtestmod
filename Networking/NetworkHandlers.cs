@@ -70,12 +70,12 @@ namespace twitchtestmod
                 {
                     posx = 0;
                 }
-                
-                int change = NPC.NewNPC(posx, posy, npcType);
+                NPC.NewNPC(posx, posy, npcType);
+                /*doesn't work
                 if (name != null)
                 {
                     Main.npc[change].GivenName = name;
-                }
+                }*/
             }
             Main.NewText("Spawned " + amount + " " + newNPC.TypeName + " for " + Main.player[playerNumber].name);
 		}

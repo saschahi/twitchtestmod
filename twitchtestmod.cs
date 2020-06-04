@@ -1,4 +1,5 @@
 using Steamworks;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using Terraria;
@@ -16,6 +17,9 @@ namespace twitchtestmod
 		public static List<TItem> Itemlist = new List<TItem>();
 		public static List<TNPC> NPClist = new List<TNPC>();
 		public static List<TBuff> Bufflist = new List<TBuff>();
+		public static Mod herosmod;
+		private static string heropermission = "ShopAllowed";
+		private static string heropermissiondisplayname = "Allow Viewershop Usage";
 
 
 		//theoretically not required
@@ -24,7 +28,9 @@ namespace twitchtestmod
 		public override void Load()
 		{
 			ProjectT = ModLoader.GetMod("ProjectT");
+			herosmod = ModLoader.GetMod("HEROsMod");
 			instance = this;
+			SetupHerosMod();
 		}
 
 		public override void Unload()
@@ -34,6 +40,7 @@ namespace twitchtestmod
 			NPClist = null;
 			Bufflist = null;
 			instance = null;
+			herosmod = null;
 		}
 		//Code from here on is for the shop
 
@@ -110,5 +117,63 @@ namespace twitchtestmod
 		{
 			NetworkHandlers.HandleIncommingData(reader, whoAmI);
 		}
+
+		public void SetupHerosMod()
+		{
+			if (herosmod != null)
+			{
+				herosmod.Call(
+					// Special string
+					"AddPermission",
+					// Permission Name
+					heropermission,
+					// Permission Display Name
+					heropermissiondisplayname);
+				/*
+				if (!Main.dedServ)
+				{
+					herosmod.Call(
+						// Special string
+						"AddSimpleButton",
+						// Name of Permission governing the availability of the button/tool
+						heropermission,
+						// Texture of the button. 38x38 is recommended for HERO's Mod. Also, a white outline on the icon similar to the other icons will look good.
+						GetTexture("ShopButton"),
+						// A method that will be called when the button is clicked
+						(Action)ShopButtonPressed,
+						// A method that will be called when the player's permissions have changed
+						(Action<bool>)ShopPermissionChanged,
+						// A method that will be called when the button is hovered, returning the Tooltip
+						(Func<string>)ShopTooltip
+					);
+				}
+				*/
+			}
+		}
+
+		public bool GetPermission(int playernumber)
+		{
+			if(herosmod != null)
+			{
+				return herosmod.Call("HasPermission", playernumber, heropermission) is bool result && result;
+			}
+			return true;
+		}
+		/*
+		public void ShopButtonPressed()
+		{
+
+		}
+
+		public void ShopPermissionChanged(bool b)
+		{
+
+		}
+
+		public string ShopTooltip()
+		{
+			return "This button doesn't have a function yet";
+		}
+		*/
 	}
 }
