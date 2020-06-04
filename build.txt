@@ -1,6 +1,6 @@
 displayName = Project-T Addon: Viewershop
 author = saschahi
-version = 1.2.1
+version = 1.2.2
 modReferences = ProjectT
 weakReferences = HEROsMod
 homepage=https://discord.gg/7t93dpx

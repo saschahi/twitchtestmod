@@ -1,11 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using ProjectT;
 using System;
-using System.Collections.Generic;
-using System.Data;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
 using Terraria.ModLoader.Config;
 
 namespace twitchtestmod

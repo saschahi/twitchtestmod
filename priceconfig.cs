@@ -316,6 +316,13 @@ namespace twitchtestmod
                 {
                     mem.Mod = "Vanilla";
                 }
+                if(mem.Name.Contains("wing"))
+                {
+                    if(mem.Price < 400000)
+                    {
+                        mem.Price = 800000;
+                    }
+                }
                 if (mem.Price <= 0)
                 {
                     mem.Price = 10;

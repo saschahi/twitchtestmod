@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
 
 namespace twitchtestmod
@@ -85,7 +81,7 @@ namespace twitchtestmod
             int ItemType = reader.ReadInt32();
             int amount = reader.ReadInt32();
             
-            Item.NewItem(Main.player[playerNumber].getRect(), ItemType, amount);
+            Item.NewItem(Main.player[playerNumber].getRect(), ItemType, amount, false, -1, false, false);
         }
         private static void ProcessApplyBuffRequest(BinaryReader reader, int playerNumber)
         {
