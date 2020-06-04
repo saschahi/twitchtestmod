@@ -55,7 +55,7 @@ namespace twitchtestmod
 
 		public static bool DoesItemexist(string name, out int ID)
 		{
-			var item = Itemlist.Find((i) => i.Name.ToLower() == name);
+			var item = Itemlist.Find((i) => i.Name.ToLower() == name.ToLower());
 
 			if (item != null)
 			{
@@ -68,7 +68,7 @@ namespace twitchtestmod
 
 		public static bool DoesNPCexist(string name, out int ID)
 		{
-			var item = NPClist.Find((i) => i.Name.ToLower() == name);
+			var item = NPClist.Find((i) => i.Name.ToLower() == name.ToLower());
 
 			if (item != null)
 			{
@@ -82,7 +82,7 @@ namespace twitchtestmod
 
 		public static bool DoesBuffexist(string name, out TBuff Buff)
 		{
-			var item = Bufflist.Find((i) => i.Name.ToLower() == name);
+			var item = Bufflist.Find((i) => i.Name.ToLower() == name.ToLower());
 
 			if (item != null)
 			{
