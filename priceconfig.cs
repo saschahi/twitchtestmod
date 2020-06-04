@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ModLoader.Config;
 
 namespace twitchtestmod
 {
@@ -263,7 +264,7 @@ namespace twitchtestmod
         public static List<TNPC> generateNPCList()
         {
             List<TNPC> tocreate = new List<TNPC>();
-
+            List<NPCDefinition> broken = BrokenNPCs.getBrokenNPCs();
             for (int i = 0; i < NPCLoader.NPCCount; i++)
             {
 
@@ -285,10 +286,12 @@ namespace twitchtestmod
                 {
                     mem.Price = 99999;
                 }
-                tocreate.Add(mem);
-
+                NPCDefinition totest = new NPCDefinition(npc.type);
+                if(!broken.Contains(totest))
+                {
+                    tocreate.Add(mem);
+                }
             }
-
             return tocreate;
         }
 
