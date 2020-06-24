@@ -66,6 +66,13 @@ namespace twitchtestmod
 			return false;
 		}
 
+		public static double GetItemprice(int ID)
+		{
+			var item = Itemlist.Find((i) => i.ID == ID);
+
+			return item.Price;
+		}
+
 		public static bool DoesNPCexist(string name, out int ID)
 		{
 			var item = NPClist.Find((i) => i.Name.ToLower() == name.ToLower());
@@ -80,6 +87,12 @@ namespace twitchtestmod
 			return false;
 		}
 
+		public static double GetNPCprice(int ID)
+		{
+			var item = NPClist.Find((i) => i.ID == ID);
+			return item.Price;
+		}
+
 		public static bool DoesBuffexist(string name, out TBuff Buff)
 		{
 			var item = Bufflist.Find((i) => i.Name.ToLower() == name.ToLower());
@@ -92,6 +105,12 @@ namespace twitchtestmod
 
 			Buff = null;
 			return false;
+		}
+
+		public static double GetBuffprice(int ID)
+		{
+			var item = Bufflist.Find((i) => i.ID == ID);
+			return item.Price;
 		}
 
 		public void initconfig()

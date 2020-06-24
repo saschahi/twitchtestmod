@@ -26,12 +26,9 @@ namespace twitchtestmod
             {
                 return;
             }
-            try
-            {
-                cost = npc.lifeMax * count;
-                cost = cost + (npc.damage * count);
-            }
-            catch { return; }
+            
+            cost = twitchtestmod.GetNPCprice(npc.type);
+            
             if (Calls.removecoins(viewer, Convert.ToDouble(cost)))
             {
                 //if multiplayerclient, we can't spawn it ourselfes. so give it to the server.
@@ -93,6 +90,7 @@ namespace twitchtestmod
 
 
         }
+
         public static void BuyItemCommand(Viewer viewer, int ItemType, int count)
         {
             Item item = new Item();
@@ -107,7 +105,9 @@ namespace twitchtestmod
                 //just to prevent inventory nuking
                 count = item.maxStack;
             }
-            double cost = item.value * count;
+
+            double cost = twitchtestmod.GetItemprice(ItemType) * count;
+
             if (Calls.removecoins(viewer, Convert.ToDouble(cost)))
             {
                 if (Main.netMode == NetmodeID.MultiplayerClient)
@@ -135,7 +135,7 @@ namespace twitchtestmod
         {
             if (TConfig.disableBuffs) { return; }
             double cost = 0;
-            cost = Buff.Price * seconds;
+            cost = twitchtestmod.GetBuffprice(Buff.ID) * seconds;
             if (Calls.removecoins(viewer, cost))
             {
                 /*if (Main.netMode == NetmodeID.MultiplayerClient)
