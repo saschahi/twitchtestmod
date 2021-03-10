@@ -27,7 +27,7 @@ namespace twitchtestmod
                 return;
             }
             
-            cost = twitchtestmod.GetNPCprice(npc.type);
+            cost = twitchtestmod.GetNPCprice(npc.type) * count;
             
             if (Calls.removecoins(viewer, Convert.ToDouble(cost)))
             {
