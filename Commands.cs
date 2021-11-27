@@ -146,6 +146,8 @@ namespace twitchtestmod
                     return;
                 }*/
 
+                //buffs are purely clientside it seems lmao
+
                 int duration = seconds * 60;
 
                 Main.player[Main.myPlayer].AddBuff(Buff.ID, duration);

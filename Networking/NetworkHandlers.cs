@@ -1,6 +1,9 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using System;
 using System.IO;
 using Terraria;
+using Terraria.Localization;
+using Terraria.ModLoader;
 
 namespace twitchtestmod
 {
@@ -73,14 +76,19 @@ namespace twitchtestmod
                     Main.npc[change].GivenName = name;
                 }*/
             }
-            Main.NewText("Spawned " + amount + " " + newNPC.TypeName + " for " + Main.player[playerNumber].name);
-		}
+            //Main.NewText("Spawned " + amount + " " + newNPC.TypeName + " for " + Main.player[playerNumber].name);
+            
+            NetMessage.BroadcastChatMessage(NetworkText.FromLiteral("Spawned " + amount + " " + newNPC.TypeName + " on " + Main.player[playerNumber].name), Color.Red);
+
+        }
 
         private static void ProcessSpawnItemRequest(BinaryReader reader, int playerNumber)
         {
             int ItemType = reader.ReadInt32();
             int amount = reader.ReadInt32();
-            
+            Item Item = new Item();
+            Item.SetDefaults(ItemType);
+            NetMessage.BroadcastChatMessage(NetworkText.FromLiteral("Spawned " + amount + " " + Item.Name + " on " + Main.player[playerNumber].name), Color.Red);
             Item.NewItem(Main.player[playerNumber].getRect(), ItemType, amount, false, -1, false, false);
         }
         private static void ProcessApplyBuffRequest(BinaryReader reader, int playerNumber)
